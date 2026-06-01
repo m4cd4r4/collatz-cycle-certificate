@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# regenerable operator caches (binary, rebuilt from build_T)
+_Tcache/
+_Tsparse/
+*.npy
+*.npz
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
