@@ -1,4 +1,4 @@
-# Half-Shift Invariance and the Rank-1 S_odd Theorem - Lean formalization draft
+# Half-Shift Invariance and the Rank-1 S_odd Theorem - Lean formalisation draft
 
 Proven 2026-06-01 (Session 39). This replaces the hand-waved cancellation step in
 analytic_proofs.py Lemma 1/2 with a correct, all-k proof. Target file: a new
@@ -86,5 +86,5 @@ theorem sodd_rank_one (k : ℕ) (hk : 3 ≤ k) :
 This is a structural fact about one block of the (unproven-uniform-gap) transfer operator. It does
 not establish the spectral gap (Section 2 of SESSION_39 synthesis - that inductive argument is
 refuted) and does not touch the deterministic-orbit transfer principle. It is a clean, real,
-formalizable lemma - the one genuinely new theorem of the session.
+formalisable lemma - the one genuinely new theorem of the session.
 ```

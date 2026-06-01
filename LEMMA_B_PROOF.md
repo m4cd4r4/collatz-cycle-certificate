@@ -84,7 +84,7 @@ Then `||tril(Q_k)||_2 <= ||u|| ||c|| <= sqrt(coll)/2^k <= sqrt(3) 2^{-k/2}`.
 
 ## The collision bound  coll(k) <= 3 * 2^k
 
-The fiber value is `Syr(r* + m 2^k) = oddpart(3(r*+m 2^k)+1) (mod 2^k)`. Since `r*` is the unique
+The fibre value is `Syr(r* + m 2^k) = oddpart(3(r*+m 2^k)+1) (mod 2^k)`. Since `r*` is the unique
 odd residue with `v2(3r*+1) = 2 ceil(k/2)`, we have `3r*+1 = 2^{2 ceil(k/2)}`, so
 
 ```
@@ -94,11 +94,11 @@ odd residue with `v2(3r*+1) = 2 ceil(k/2)`, we have `3r*+1 = 2^{2 ceil(k/2)}`, s
 
 Hence `Syr(r* + m 2^k) = oddpart(a + 3m) (mod 2^k)`, where `x = a + 3m` ranges over the
 **real-integer** arithmetic progression `{a, a+3, ..., a + 3(2^k - 1)}` of length `2^k`. This model
-is cross-checked against the true Syracuse fiber `syr` for every k and both parities in
+is cross-checked against the true Syracuse fibre `syr` for every k and both parities in
 [lemmaB_fact1_rigorous.py](lemmaB_fact1_rigorous.py)
 (column `=syr?` all `True`). (The even-k case, with `a = 1`, was the one established earlier in
 [attack3_collision_proof.py](attack3_collision_proof.py);
-the `a = 2` odd-k case is the corrected generalization.)
+the `a = 2` odd-k case is the corrected generalisation.)
 
 Decompose the AP by 2-adic valuation into shells `A_j = { x = a+3m : v2(x) = j }`.
 
@@ -151,7 +151,7 @@ Hence `coll = diag + 2*cross <= 2^k + 2*2^k = 3 * 2^k`. **QED, all k.**
 `coll(k)/2^k -> 31/12 = 2.5833` for both parities, so `||c|| * 2^{k/2} -> sqrt(31/12) = 1.6073`.
 The even-k exact count is `coll = (31*2^k + 8)/12` (confirmed `166, 662, 2646, 10582` at
 k=6,8,10,12); the odd-k count approaches the same ratio from below (`80, 328, 1320, 5288, 21160`
-at k=5,7,9,11,13, all matching the true Syracuse fiber). The provable `sqrt(3) = 1.7321` bound has
+at k=5,7,9,11,13, all matching the true Syracuse fibre). The provable `sqrt(3) = 1.7321` bound has
 comfortable margin over `sqrt(31/12)` at every k.
 
 ## What this closes

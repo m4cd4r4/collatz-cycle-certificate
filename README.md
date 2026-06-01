@@ -2,7 +2,7 @@
 
 A rigorous, elementary, all-scales argument that the Collatz (3n+1) map has **no non-trivial cycles**,
 built from a transfer operator and its spectral gap. The two hardest ingredients are proved for every
-scale `k`; one assembly step and a machine-checked formalization remain.
+scale `k`; one assembly step and a machine-checked formalisation remain.
 
 > **Honest scope (read first).** This is about **cycles only**. Even when complete it would prove "the
 > only Collatz cycle is `1 -> 4 -> 2 -> 1`," which is *strictly weaker* than the Collatz conjecture
@@ -15,7 +15,7 @@ forbids non-trivial cycles. (Computed from the real operator; reproduce with `py
 
 ---
 
-## In plain terms (no maths background needed)
+## In plain terms
 
 **The Collatz game.** Pick a whole number. If it is even, halve it. If it is odd, triple it and add
 one. Repeat. The conjecture (open since the 1930s) says you always eventually reach 1. Two ways it
@@ -67,14 +67,14 @@ uniform in `k`. A uniform spectral gap `|lambda_2(U_k)| < 1` eliminates non-triv
 *The block-norm matrix `Q` (log scale). The bright upper triangle is the cascade `Q[a,b] = 2^{-(b-a)/2}`;
 the dark lower triangle is the rank-1 `r*` defect, which vanishes like `2^{-k/2}`.*
 
-The certificate splits into two lemmas, both **proved for all `k`** (elementary; Lean formalization
+The certificate splits into two lemmas, both **proved for all `k`** (elementary; Lean formalisation
 pending), plus an assembly step that is the current frontier.
 
 ### Lemma A - upper cascade (within-level isometry)
 
 For `0 <= a < b <= k-2`, `||P_a U_clean P_b||_2 = 2^{-(b-a)/2}` exactly, because the block `B` satisfies
-`B*B = 2^{-(b-a)} I`. This reduces - by elementary algebra - to **two uniform-fiber lemmas sharing one
-engine** ("3 is a unit mod `2^k` + a multiplication map has uniform fibers on a cyclic 2-group"):
+`B*B = 2^{-(b-a)} I`. This reduces - by elementary algebra - to **two uniform-fibre lemmas sharing one
+engine** ("3 is a unit mod `2^k` + a multiplication map has uniform fibres on a cyclic 2-group"):
 
 - **CU** (coset-uniformity): also discharges Half-Shift Invariance and the rank-1 `S_odd` structure.
 - **SB** (shell-bijection `r -> (3r+1)/2^j mod 2^{k-j}`): the instance the cascade uses.
@@ -96,7 +96,7 @@ proved unconditionally for all `k` by a 2-adic shell decomposition (per-shell in
 1. **The `U_clean -> U_full` row-sum assembly** - combine Lemma A (exact upper, `0.5469`) and Lemma B
    (defect, `-> 0`) into `rho(Q_k) < 1` for all `k`. The `2^{a-b}` weight vs the defect decay is genuine
    work, not a wrap-up; see [UFULL_ASSEMBLY_PLAN.md](UFULL_ASSEMBLY_PLAN.md).
-2. **Lean formalization** of CU, SB, S4, the counting, Lemma B, and the assembly.
+2. **Lean formalisation** of CU, SB, S4, the counting, Lemma B, and the assembly.
 
 ---
 
@@ -107,7 +107,7 @@ pip install -r requirements.txt
 python generate_figures.py          # the four README figures, from the real operator
 python audit_halfshift_s4.py        # coset-uniformity, S4, isometry parity-split + boundaries (0 violations)
 python attack1_lemmaA_proof.py      # closed-form B*B = 2^-d I, all (a,b), to k=14
-python lemmaB_fact1_rigorous.py     # collision bound coll <= 3*2^k, both parities, vs the true Syracuse fiber
+python lemmaB_fact1_rigorous.py     # collision bound coll <= 3*2^k, both parities, vs the true Syracuse fibre
 python adv_tril_sep_correct.py      # ||tril(Q_D)|| matches the dense operator (<1e-10); chain to k=24
 ```
 

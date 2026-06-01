@@ -68,12 +68,12 @@ This weight-vs-decay battle is the genuine remaining work -- treat it as a third
    `level_energies` and the `gamma` profile in `_reconcile_out.txt`).
 2. **Writer:** prove `max_a S_a < 0.453` (ideally `-> 0`) for all `k`, plus the upper-leak bound, then
    assemble `row-sum(Q_full) <= 0.5469 + o(1) < 1`.
-3. **Adversarial referee (workflow):** attack the bound at the row `a` that maximizes `S_a`; both
+3. **Adversarial referee (workflow):** attack the bound at the row `a` that maximises `S_a`; both
    parities; check the `2^{a-b}` weight vs `v_b` decay at the top row `a=k-2`; verify the analytic
    bound dominates the measured `0.156` and stays `< 0.453` for `k` pushed well past 12; hunt for a
    Lemma-B-style boundary/parity surprise.
 4. If it holds: `|lambda_2(U_k)| < 1` uniformly => no non-trivial Syracuse cycles. Then **Lean
-   formalization** (CU, SB, S4, the counting, Lemma B's collision bound, the assembly) and a paper.
+   formalisation** (CU, SB, S4, the counting, Lemma B's collision bound, the assembly) and a paper.
 
 ## Oracles / files for the next session
 
