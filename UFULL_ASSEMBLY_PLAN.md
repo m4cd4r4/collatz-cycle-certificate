@@ -1,8 +1,22 @@
-# Pivot plan: the U_full row-sum assembly (PLANNED, NOT ACTIONED)
+# Pivot plan: the U_full row-sum assembly (ACTIONED 2026-06-02, Session 40)
 
-Written 2026-06-01 (Session 39) as a cold-start brief. Do not action yet; pick up when Opus
-credits are available. **First action on resume: re-read this file, then `git fetch` and rebase the
-working branch on the latest base before doing anything else.**
+Written 2026-06-01 (Session 39) as a cold-start brief. **Actioned in Session 40**; the outcome lives
+in [UFULL_ASSEMBLY_PROOF.md](UFULL_ASSEMBLY_PROOF.md). Summary of what changed:
+
+- The assembly is **closed for all `k`, modulo one new sharp lemma (Lemma C)**:
+  `cert(k) < G_up + 2^{-3/2} = 0.9005 < 1`, uniform, by an elementary triangle-inequality +
+  geometric-series argument from Lemma A (upper) and Lemma C (defect per-level bound).
+- The crux below was resolved: the `v_b` profile is **not** flat; `v_b <= (3/4) 2^{-b} 2^{-k/2}`
+  (Lemma C), so the `2^{-b}` decay (giving `4^{-b}` in the weighted sum) beats the `2^{(a-1)/2}` weight.
+  The `L^2` bound alone is insufficient (gives `0.707`, cert fails at `1.25`), confirming this is a
+  genuine third lemma. Lemma C is verified exactly to `k=26`, sharp constant `3/4` (equality at `b=k-4`),
+  and reduced to a periodization-excess bound `2^b(2 h_b - h_{b+1}) <= 9/16`. Its analytic proof is the
+  new frontier. Adversarially refereed by three independent agents (assembly algebra, Lemma C numerics,
+  scope/honesty); no fatal/major findings against the assembly theorem.
+
+The original cold-start brief follows, retained for the record.
+
+---
 
 ## Where we are (what is already proved)
 

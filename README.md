@@ -1,8 +1,10 @@
 # A spectral-gap certificate against Collatz cycles
 
 A rigorous, elementary, all-scales argument that the Collatz (3n+1) map has **no non-trivial cycles**,
-built from a transfer operator and its spectral gap. The two hardest ingredients are proved for every
-scale `k`; one assembly step and a machine-checked formalisation remain.
+built from a transfer operator and its spectral gap. Two hard lemmas (A, B) are proved for every scale
+`k`; the row-sum assembly is now closed for all `k` **modulo one sharp per-level bound (Lemma C)**,
+which is verified exactly to `k=26` and reduced to a single periodization estimate. That bound's
+analytic proof and a machine-checked formalisation remain.
 
 > **Honest scope (read first).** This is about **cycles only**. Even when complete it would prove "the
 > only Collatz cycle is `1 -> 4 -> 2 -> 1`," which is *strictly weaker* than the Collatz conjecture
@@ -44,9 +46,12 @@ scale.
 *One block, drawn as its nonzero pattern: exactly one mark per row. That single combinatorial fact is
 the entire reason the block is a rigid rescaling.*
 
-**Where it stands.** The two hardest lemmas (call them A and B) are proved for all scales. One step
-remains - assembling them into the final "below 1" bound for the full operator - plus a formal,
-computer-checked version. And again: this is about cycles, not the whole conjecture.
+**Where it stands.** The two hardest lemmas (call them A and B) are proved for all scales. The step of
+assembling them into the final "below 1" bound is now done for every scale, but it turned out to need
+one more sharp ingredient - a per-level decay bound (Lemma C) on the lone defect. With Lemma C assumed,
+the "below 1" bound holds for all scales (`< 0.9005`, room to spare). Lemma C itself is checked exactly
+out to scale 26 and pinned down to a single clean inequality, but its all-scales proof, plus a formal
+computer-checked version, are what remain. And again: this is about cycles, not the whole conjecture.
 
 ---
 
@@ -91,12 +96,23 @@ exceptional residue `r* = -3^{-1} mod 2^k`; the bound reduces to a collision cou
 proved unconditionally for all `k` by a 2-adic shell decomposition (per-shell injectivity via a
 `mod 3` + range argument). Sharp constant `coll/2^k -> 31/12`. Full proof: [LEMMA_B_PROOF.md](LEMMA_B_PROOF.md).
 
+### Lemma C - per-level decay of the defect covector (the new frontier)
+
+`v_b := ||P_b c||_2 <= (3/4) * 2^{-b} * 2^{-k/2}` for all `0 <= b <= k-2`, all `k`. The constant `3/4`
+is sharp (equality at `b = k-4`), verified exactly to `k=26`, with a `k`-independent boundary profile.
+It reduces to a periodization-excess bound on the defect covector `c` (the partial Gauss sum at `r*`):
+with `h_j = N ||fold_{2^j}(c)||^2`, the bound is `2^b (2 h_b - h_{b+1}) <= 9/16`. This is the genuine
+remaining analytic step. The `L^2` mass alone (Lemma B) is **not** enough - it gives only `0.707` and
+the certificate would fail at `1.25`; the per-level decay is what closes it. See
+[UFULL_ASSEMBLY_PROOF.md](UFULL_ASSEMBLY_PROOF.md).
+
 ### What remains
 
-1. **The `U_clean -> U_full` row-sum assembly** - combine Lemma A (exact upper, `0.5469`) and Lemma B
-   (defect, `-> 0`) into `rho(Q_k) < 1` for all `k`. The `2^{a-b}` weight vs the defect decay is genuine
-   work, not a wrap-up; see [UFULL_ASSEMBLY_PLAN.md](UFULL_ASSEMBLY_PLAN.md).
-2. **Lean formalisation** of CU, SB, S4, the counting, Lemma B, and the assembly.
+1. **Lemma C's analytic proof** - the per-level bound above. The `U_clean -> U_full` row-sum assembly
+   itself is done: given Lemma A (exact upper, `0.5469`) and Lemma C, the certificate is
+   `< G_up + 2^{-3/2} = 0.9005 < 1` for all `k`, uniformly. Full argument and the Lemma C reduction in
+   [UFULL_ASSEMBLY_PROOF.md](UFULL_ASSEMBLY_PROOF.md).
+2. **Lean formalisation** of CU, SB, S4, the counting, Lemma B, Lemma C, and the assembly.
 
 ---
 
@@ -109,6 +125,9 @@ python audit_halfshift_s4.py        # coset-uniformity, S4, isometry parity-spli
 python attack1_lemmaA_proof.py      # closed-form B*B = 2^-d I, all (a,b), to k=14
 python lemmaB_fact1_rigorous.py     # collision bound coll <= 3*2^k, both parities, vs the true Syracuse fibre
 python adv_tril_sep_correct.py      # ||tril(Q_D)|| matches the dense operator (<1e-10); chain to k=24
+python verify_assembly.py           # the assembly: cert < 0.9005 < 1 (Lemma A+C); matches build_T to 6 digits
+python explore_vb_profile.py        # the v_b profile and per-row S_a (Lemma C ground truth)
+python probe_periodization.py       # g_b^2 = 2^b(2 h_b - h_{b+1}); sup = 9/16 (the Lemma C reduction)
 ```
 
 ## Repository map
@@ -119,7 +138,9 @@ python adv_tril_sep_correct.py      # ||tril(Q_D)|| matches the dense operator (
 | `LEMMA_B_PROOF.md` | Lemma B: the collision bound `coll <= 3*2^k` (proof) |
 | `STEP4_BLOCK_FORMULA_FOUNDATION.md` | the operator split `U = U_clean + D` and block formula |
 | `HalfShiftInvariance_DRAFT.md` | Half-Shift Invariance / rank-1 `S_odd` (Lean draft) |
-| `UFULL_ASSEMBLY_PLAN.md` | the open frontier: the `U_full` row-sum assembly |
+| `UFULL_ASSEMBLY_PROOF.md` | the assembly proved modulo Lemma C + the sharp per-level bound (Lemma C) |
+| `UFULL_ASSEMBLY_PLAN.md` | the prior cold-start brief for the assembly (now actioned) |
+| `verify_assembly.py`, `explore_vb_profile.py`, `probe_*.py` | assembly + Lemma C verification |
 | `analytic_proofs.py` | `build_T(k)`: the transfer operator (the numerical oracle) |
 | `audit_halfshift_s4.py`, `attack1_lemmaA_proof.py`, `attack1_Sodd.py` | Lemma A / CU / S4 verification |
 | `lemmaB_fact1_rigorous.py`, `attack3_*.py` | Lemma B verification |
