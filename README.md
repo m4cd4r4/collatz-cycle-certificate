@@ -32,35 +32,41 @@ see the retraction. Computed from the real operator; reproduce with `python gene
 **The Collatz game.** Pick a whole number. If it is even, halve it. If it is odd, triple it and add
 one. Repeat. The conjecture (open since the 1930s) says you always eventually reach 1. Two ways it
 *could* fail: a number could **loop forever** in a cycle that never hits 1, or it could **grow to
-infinity**. This project attacks the first failure mode: **ruling out loops (cycles).**
+infinity**. This project set out to attack the first failure mode (ruling out loops) - and the central
+idea, it turns out, **does not work**. What survives is a clean side-result about a matrix.
 
-**The trick: turn the map into a matrix.** Instead of following one number, follow the *cloud* of
-where numbers land, and write that as a big table of numbers (a "transfer operator"). A matrix has a
-set of characteristic sizes called eigenvalues. The biggest is always 1. If the **second biggest is
-below 1** - a "gap" - the cloud settles into a single stable state and *cannot* support a hidden loop.
-We need that gap, with room to spare, at every scale (working modulo `2^k` for all `k`).
+**The trick that was tried.** Instead of following one number, follow the *cloud* of where numbers
+land, and write that as a big table of numbers (a "transfer operator"). The hope was: if the operator's
+second-largest characteristic size (eigenvalue) is **below 1** - a "spectral gap" - then the cloud
+mixes and there is no room for a hidden loop. We proved that gap, with room to spare, at every scale.
+
+**Why the idea fails.** A spectral gap measures mixing of the *averaged* cloud, and averaging throws
+away the exact step-by-step orbit - which is the only thing a loop lives in. The clean test: the very
+similar `3x-1` map (triple and subtract one) **does** have loops, like `5 -> 7 -> 5`. Yet its operator
+has the **same** gap and passes the **same** certificate. So a gap below 1 cannot be what rules out
+loops - if it were, it would wrongly "rule out" the `3x-1` loops that plainly exist. (Same lesson as
+the doubling map `x -> 2x`, which mixes perfectly yet is full of loops.) The cycle claim is **withdrawn**;
+details in [CYCLE_CLAIM_REFUTED.md](CYCLE_CLAIM_REFUTED.md).
 
 ![spectrum](figures/fig2_spectrum.png)
 
-*The operator's eigenvalues. The top one is 1; the rest sit well below it. That gap is what rules out
-cycles.*
+*The operator's eigenvalues. The top one is 1; the rest sit well below it. This gap is real and proved -
+but it does not rule out cycles (the cyclic `3x-1` operator looks identical).*
 
-**Why it was hard, and what we did.** The matrix splits into blocks according to how divisible by two
-a number is. The crux was showing each block is a clean, rigid rescaling - technically an *isometry*.
-People expected this to need deep "Gauss sum" machinery. It doesn't: it comes down to the single fact
-that **3 is an odd number** (a unit modulo any power of two), plus bookkeeping. We proved it for every
-scale.
+**What we actually proved.** That spectral gap, for every scale `k`. The matrix splits into blocks by
+how divisible by two a number is; the crux was showing each block is a clean, rigid rescaling
+(an *isometry*). People expected deep "Gauss sum" machinery; it comes down to the single fact that
+**3 is an odd number** (a unit modulo any power of two), plus bookkeeping. Three lemmas (A, B, C), their
+shared foundation (coset-uniformity), and the final "below 1" assembly are all proved for every scale.
 
 ![block structure](figures/fig3_incidence.png)
 
 *One block, drawn as its nonzero pattern: exactly one mark per row. That single combinatorial fact is
 the entire reason the block is a rigid rescaling.*
 
-**Where it stands.** The two hardest lemmas (A and B), the per-level Lemma C, the Coset-Uniformity
-foundation, and the assembly are all proved for every scale, giving the "below 1" bound (`< 0.9005`)
-and hence a uniform spectral gap. **But that gap does not eliminate cycles** (see the retraction above
-and [CYCLE_CLAIM_REFUTED.md](CYCLE_CLAIM_REFUTED.md)): the `3x-1` control has the same gap and known
-cycles. The proved content is the spectral gap of the operator; the cycle corollary is withdrawn.
+**Where it stands.** A correct, elementary, all-scales proof of a uniform spectral gap for the Syracuse
+transfer operator (`< 0.9005`, room to spare). The cycle-elimination conclusion that motivated it is
+withdrawn. This is **not** a proof of any part of Collatz.
 
 ---
 
@@ -83,8 +89,8 @@ The certificate is a true statement about the operator; the cycle inference draw
 *The block-norm matrix `Q` (log scale). The bright upper triangle is the cascade `Q[a,b] = 2^{-(b-a)/2}`;
 the dark lower triangle is the rank-1 `r*` defect, which vanishes like `2^{-k/2}`.*
 
-The certificate splits into two lemmas, both **proved for all `k`** (elementary; Lean formalisation
-pending), plus an assembly step that is the current frontier.
+The certificate splits into three lemmas (A, B, C), all **proved for all `k`** (elementary; Lean
+formalisation pending), plus the row-sum assembly, also proved.
 
 ### Lemma A - upper cascade (within-level isometry)
 
@@ -107,7 +113,7 @@ exceptional residue `r* = -3^{-1} mod 2^k`; the bound reduces to a collision cou
 proved unconditionally for all `k` by a 2-adic shell decomposition (per-shell injectivity via a
 `mod 3` + range argument). Sharp constant `coll/2^k -> 31/12`. Full proof: [LEMMA_B_PROOF.md](LEMMA_B_PROOF.md).
 
-### Lemma C - per-level decay of the defect covector (the new frontier)
+### Lemma C - per-level decay of the defect covector
 
 `v_b := ||P_b c||_2 <= (3/4) * 2^{-b} * 2^{-k/2}` for all `0 <= b <= k-2`, all `k`. The constant `3/4`
 is sharp (equality at `b = k-4`), verified exactly to `k=26`, with a `k`-independent boundary profile.
@@ -151,7 +157,10 @@ python probe_periodization.py       # g_b^2 = 2^b(2 h_b - h_{b+1}); sup = 9/16 (
 python probe_gb_collision.py        # g_b^2 = E_p/4^p (single index, p=k-b); sum|S|^2 = 2^p coll(p)
 python probe_autocorr.py            # E_p = 2^{p-1}(coll-A); Lemma C <=> coll(p)-A_p <= (9/8)2^p
 python probe_shell_halfshift.py     # shell proof: j=0 cancels, diag=2^{p-1}, coll-A <= (3/2)2^p
-python probe_selfsimilar.py         # the homometry |S_k(2 xi)| = |S_{k-1}(xi)| (the one un-derived link)
+python probe_homometry_proof.py     # Lemma H: parity split proving S_k(2 xi) = S_{k-1}(xi)
+python verify_lemma_h.py            # independent integer-exact check of Lemma H (0 failures)
+python probe_cycle_link.py          # the 3x+1 vs 3x-1 control: same gap, but 3x-1 HAS cycles (retraction)
+python probe_cycle_recovery.py      # cycle-detector tests: spectrum/traces are cycle-blind
 ```
 
 ## Repository map
@@ -165,10 +174,10 @@ python probe_selfsimilar.py         # the homometry |S_k(2 xi)| = |S_{k-1}(xi)| 
 | `CYCLE_CLAIM_REFUTED.md` | **the retraction**: why the spectral gap does not eliminate cycles (3x-1 control) |
 | `CYCLE_STRUCTURE_RECOVERY.md` | follow-up: no cycle structure is recoverable from the spectral side; where it lives |
 | `probe_cycle_link.py`, `probe_cycle_recovery.py` | the 3x+1 vs 3x-1 control + cycle-detector tests |
-| `UFULL_ASSEMBLY_PROOF.md` | the assembly proved modulo Lemma C + the sharp per-level bound (Lemma C) |
-| `LEMMA_C_PROOF.md` | Lemma C reduced (shell method) to the homometry identity; assembly-strength proof |
+| `UFULL_ASSEMBLY_PROOF.md` | the row-sum assembly: `cert(k) < 0.9005 < 1` from Lemma A + Lemma C |
+| `LEMMA_C_PROOF.md` | Lemma C proved (shell method + Lemma H homometry); assembly-strength bound |
 | `UFULL_ASSEMBLY_PLAN.md` | the prior cold-start brief for the assembly (now actioned) |
-| `verify_assembly.py`, `explore_vb_profile.py`, `probe_*.py` | assembly + Lemma C verification |
+| `verify_assembly.py`, `explore_vb_profile.py`, `verify_lemma_h.py`, `probe_*.py` | assembly + Lemma C / H verification |
 | `analytic_proofs.py` | `build_T(k)`: the transfer operator (the numerical oracle) |
 | `audit_halfshift_s4.py`, `attack1_lemmaA_proof.py`, `attack1_Sodd.py` | Lemma A / CU / S4 verification |
 | `lemmaB_fact1_rigorous.py`, `attack3_*.py` | Lemma B verification |
