@@ -1,5 +1,10 @@
 # Coset-Uniformity, S4, and the reduction of Lemma A to one elementary lemma (2026-06-01)
 
+> **RETRACTION note (2026-06-02).** CU, SB, S4 and Lemma A here are correct and unconditional, and they
+> feed a genuine uniform spectral gap for the transfer operator. The program's downstream claim that
+> this gap **eliminates non-trivial cycles** is **false and withdrawn** (the `3x-1` control has the same
+> gap and known cycles). See [CYCLE_CLAIM_REFUTED.md](CYCLE_CLAIM_REFUTED.md).
+
 This document discharges the "crux" obligation of the spectral-gap certificate. After the Session 39
 research pivot, the entire upper-cascade Lemma A, the strict-upper structure (R1) and rank-1 defect
 (R2) of Lemma B's foundation, and the Half-Shift Invariance lemma **all reduce by elementary algebra

@@ -1,5 +1,10 @@
 # Lemma C: per-level decay of the defect covector
 
+> **RETRACTION note (2026-06-02).** Lemma C is a correct ingredient of the operator spectral-gap proof.
+> The downstream conclusion "certificate => no non-trivial cycles" is **false and withdrawn** (the
+> `3x-1` control has the same certificate and known cycles). See [CYCLE_CLAIM_REFUTED.md](CYCLE_CLAIM_REFUTED.md).
+> Read any "eliminates cycles" phrasing below as withdrawn; the per-level bound itself stands.
+
 Written 2026-06-02 (Session 40), the analytic step requested after
 [UFULL_ASSEMBLY_PROOF.md](UFULL_ASSEMBLY_PROOF.md). This document reduces Lemma C to an elementary
 collision-count inequality in the **same shell framework that proves Lemma B**, and proves the bound

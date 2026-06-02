@@ -1,5 +1,10 @@
 # Lemma B: the collision bound, unconditional for all k (2026-06-01)
 
+> **RETRACTION note (2026-06-02).** Lemma B is a correct ingredient of the operator spectral-gap proof.
+> The downstream conclusion "certificate => no non-trivial cycles" is **false and withdrawn** (the
+> `3x-1` control has the same certificate and known cycles). See [CYCLE_CLAIM_REFUTED.md](CYCLE_CLAIM_REFUTED.md).
+> The collision bound itself stands; read any "eliminating cycles" phrasing below as withdrawn.
+
 Lemma B is the "diagonal + lower back-flow" half of the uniform spectral-gap certificate
 for the Syracuse transfer operator (see
 [STEP4_BLOCK_FORMULA_FOUNDATION.md](STEP4_BLOCK_FORMULA_FOUNDATION.md)).

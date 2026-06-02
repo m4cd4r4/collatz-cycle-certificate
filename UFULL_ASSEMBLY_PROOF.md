@@ -1,5 +1,11 @@
 # The U_full row-sum assembly: proof modulo one sharp per-level bound
 
+> **RETRACTION note (2026-06-02).** This document proves `cert(k) < 1`, a uniform spectral gap for the
+> transfer operator. The further step "spectral gap => no non-trivial cycles" stated below is **false**
+> and is **withdrawn**: the `3x-1` map satisfies the same certificate yet has cycles. See
+> [CYCLE_CLAIM_REFUTED.md](CYCLE_CLAIM_REFUTED.md). The `cert(k) < 1` result is correct; the cycle
+> corollary is not. Read the cycle-elimination sentences below as withdrawn.
+
 Written 2026-06-02 (Session 40), resuming from [UFULL_ASSEMBLY_PLAN.md](UFULL_ASSEMBLY_PLAN.md).
 This document closes the assembly **conditionally on a single new lemma (Lemma C)**, states that
 lemma sharply, reduces it to a clean periodization estimate, and is explicit about what is proved

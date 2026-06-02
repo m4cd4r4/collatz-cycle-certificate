@@ -1,21 +1,29 @@
-# A spectral-gap certificate against Collatz cycles
+# A uniform spectral gap for the Syracuse transfer operator
 
-A rigorous, elementary, all-scales argument that the Collatz (3n+1) map has **no non-trivial cycles**,
-built from a transfer operator and its spectral gap. The three lemmas (A, B, C), their shared
-foundation (Coset-Uniformity, which gives the strict-upper + confined-defect structure), and the
-row-sum assembly are now **proved for every scale `k`**, all by elementary 2-adic / finite-group
-arguments. The certificate is `< 1` uniformly, which forbids non-trivial cycles. The remaining
-obligations are not new mathematical cruxes: an explicit write-up of the standard spectral reduction
-(`certificate < 1` => spectral gap) and a machine-checked (Lean) formalisation.
+> **RETRACTION (2026-06-02, read first).** This repository previously claimed that the spectral-gap
+> certificate **eliminates non-trivial Collatz cycles**. **That claim is withdrawn - it is false.** A
+> uniform spectral gap of the transfer operator does NOT imply the absence of cycles. Decisive control:
+> the `3x-1` map has known non-trivial cycles (`{5,7}`, `{17,25,...}`) yet its transfer operator passes
+> the identical certificate (`cert ~ 0.606 < 1`, `|lambda_2| ~ 0.29`) even more strongly than `3x+1`.
+> The averaging over `2^k` lifts that defines the operator washes out the deterministic orbit
+> structure, so cycles are invisible to the spectrum (the same way the doubling map is mixing yet has
+> dense periodic points). Full account: [CYCLE_CLAIM_REFUTED.md](CYCLE_CLAIM_REFUTED.md).
 
-> **Honest scope (read first).** This is about **cycles only**. Even when complete it would prove "the
-> only Collatz cycle is `1 -> 4 -> 2 -> 1`," which is *strictly weaker* than the Collatz conjecture
-> (it says nothing about trajectories that might escape to infinity). It is not a proof of Collatz.
+What remains correct and proved is a **uniform spectral gap for the Syracuse (3n+1) mod-`2^k` transfer
+operator** `T_k`: the three lemmas (A, B, C), their shared Coset-Uniformity foundation, and the row-sum
+assembly are proved for every scale `k` by elementary 2-adic / finite-group arguments, giving
+`cert(k) < 0.9005 < 1` and hence `|lambda_2(T_k)| < 1` uniformly. This is a real result about the
+operator. It simply does **not** carry the cycle-elimination corollary that was claimed, and it is not
+a proof of (any part of) the Collatz conjecture.
+
+> **Honest scope.** Cycle elimination is what was *attempted* and is now retracted. The divergent-
+> trajectory half of Collatz was never addressed. The surviving content is the operator spectral gap.
 
 ![certificate vs k](figures/fig4_certificate.png)
 
-*The certificate value stays flat below 1 as the scale `k` grows. A value below 1 at every scale
-forbids non-trivial cycles. (Computed from the real operator; reproduce with `python generate_figures.py`.)*
+*The certificate value stays flat below 1 as the scale `k` grows, giving a uniform spectral gap. (Note:
+the `3x-1` operator, which has cycles, produces the same below-1 curve - so this does not forbid cycles;
+see the retraction. Computed from the real operator; reproduce with `python generate_figures.py`.)*
 
 ---
 
@@ -48,13 +56,11 @@ scale.
 *One block, drawn as its nonzero pattern: exactly one mark per row. That single combinatorial fact is
 the entire reason the block is a rigid rescaling.*
 
-**Where it stands.** The two hardest lemmas (A and B) are proved for all scales, and the step of
-assembling them into the final "below 1" bound is now done for every scale. It turned out to need one
-more ingredient - a per-level decay bound (Lemma C) on the lone defect - and that is now proved too: it
-reduces, through a clean self-similarity of the underlying sum, into the same machinery as Lemma B. So
-the "below 1" bound holds for all scales (`< 0.9005`, room to spare), and everything now rests on a
-single shared foundation lemma (Half-Shift Invariance, a draft verified out to large scales) plus a
-formal computer-checked version. And again: this is about cycles, not the whole conjecture.
+**Where it stands.** The two hardest lemmas (A and B), the per-level Lemma C, the Coset-Uniformity
+foundation, and the assembly are all proved for every scale, giving the "below 1" bound (`< 0.9005`)
+and hence a uniform spectral gap. **But that gap does not eliminate cycles** (see the retraction above
+and [CYCLE_CLAIM_REFUTED.md](CYCLE_CLAIM_REFUTED.md)): the `3x-1` control has the same gap and known
+cycles. The proved content is the spectral gap of the operator; the cycle corollary is withdrawn.
 
 ---
 
@@ -68,7 +74,9 @@ norm of the level-`(a,b)` block. The **certificate** is
     rho(U_k) restricted to the non-Perron part  <=  rho(Q_k)  <=  max_a sum_b Q_k[a,b] * 2^{a-b}  <  1 ,
 ```
 
-uniform in `k`. A uniform spectral gap `|lambda_2(U_k)| < 1` eliminates non-trivial Syracuse cycles.
+uniform in `k`, giving a uniform spectral gap `|lambda_2(U_k)| < 1`. **This gap does not eliminate
+cycles** - it holds equally for the `3x-1` map, which has cycles ([CYCLE_CLAIM_REFUTED.md](CYCLE_CLAIM_REFUTED.md)).
+The certificate is a true statement about the operator; the cycle inference drawn from it was wrong.
 
 ![Q heatmap](figures/fig1_Q_heatmap.png)
 
@@ -117,20 +125,14 @@ Invariance dependence that Lemmas A and B already carry, and adds no new conditi
 
 ### What remains
 
-The mathematics is now all-`k` (Coset-Uniformity, the shared foundation crux, is proved by
-finite-group theory in [HALFSHIFT_S4_LEMMA_A_PROOF.md](HALFSHIFT_S4_LEMMA_A_PROOF.md); the certificate
-is `< G_up + 2^{-3/2} = 0.9005 < 1`, uniform). The open items are not new cruxes:
-
-1. **Explicit write-up of the spectral reduction** `certificate(k) < 1` => `|lambda_2(U_k)| < 1` =>
-   no non-trivial cycles. The chain `|lambda_2(U_k)| <= rho(Q_k) <= cert(k)` (Perron/non-Perron split
-   plus the weighted-row-sum bound) is standard and stated in
-   [STEP4_BLOCK_FORMULA_FOUNDATION.md](STEP4_BLOCK_FORMULA_FOUNDATION.md), but is currently cited rather
-   than written out in full.
-2. **Lean formalisation** of CU, SB, S4, the counting, Lemma B, Lemma C, and the assembly.
-
-(The defect "rank exactly 1" / nonvanishing is verified but not analytically settled for even `k`; it
-is **not used** - every bound is an upper bound that a zero defect satisfies trivially, so it does not
-affect the `< 1` conclusion.)
+The spectral-gap mathematics is complete and all-`k` (Coset-Uniformity proved in
+[HALFSHIFT_S4_LEMMA_A_PROOF.md](HALFSHIFT_S4_LEMMA_A_PROOF.md); `cert(k) < 0.9005 < 1`, uniform). What
+does **not** follow, and is **withdrawn**, is cycle elimination: the gap `=> no cycles` inference is
+false ([CYCLE_CLAIM_REFUTED.md](CYCLE_CLAIM_REFUTED.md)). Ruling out non-trivial Collatz cycles would
+require an instrument sensitive to the deterministic orbit (e.g. linear-forms-in-logs / height bounds,
+as in classical cycle-length results), not this transfer-operator spectral gap. The only thing the
+spectral-gap result still admits as future work is a Lean formalisation of the gap itself, which would
+formalise a correct-but-not-cycle-eliminating statement.
 
 ---
 
@@ -160,6 +162,8 @@ python probe_selfsimilar.py         # the homometry |S_k(2 xi)| = |S_{k-1}(xi)| 
 | `LEMMA_B_PROOF.md` | Lemma B: the collision bound `coll <= 3*2^k` (proof) |
 | `STEP4_BLOCK_FORMULA_FOUNDATION.md` | the operator split `U = U_clean + D` and block formula |
 | `HalfShiftInvariance_DRAFT.md` | Half-Shift Invariance / rank-1 `S_odd` (Lean draft) |
+| `CYCLE_CLAIM_REFUTED.md` | **the retraction**: why the spectral gap does not eliminate cycles (3x-1 control) |
+| `probe_cycle_link.py` | the decisive 3x+1 vs 3x-1 control experiment |
 | `UFULL_ASSEMBLY_PROOF.md` | the assembly proved modulo Lemma C + the sharp per-level bound (Lemma C) |
 | `LEMMA_C_PROOF.md` | Lemma C reduced (shell method) to the homometry identity; assembly-strength proof |
 | `UFULL_ASSEMBLY_PLAN.md` | the prior cold-start brief for the assembly (now actioned) |

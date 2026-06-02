@@ -1,5 +1,11 @@
 # Step-4 Block-Formula Foundation (2026-06-01)
 
+> **RETRACTION note (2026-06-02).** The block formula and `Q[a,b]` structure here are correct and feed
+> the operator spectral-gap proof. The implied chain `|lambda_2(T_k)| < 1 => no non-trivial cycles` is
+> **false and withdrawn**: the `3x-1` map gives the same `|lambda_2| <= rho(Q) < 1` and has cycles. See
+> [CYCLE_CLAIM_REFUTED.md](CYCLE_CLAIM_REFUTED.md). The spectral-gap content stands; the cycle corollary
+> does not.
+
 Exact, validated foundation for the step-4 entry-bound lemma of the uniform spectral gap.
 Everything here is checked against `build_T` to machine precision; finite-k verification is named
 as such and never conflated with all-k proof.
