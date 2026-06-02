@@ -163,7 +163,8 @@ python probe_selfsimilar.py         # the homometry |S_k(2 xi)| = |S_{k-1}(xi)| 
 | `STEP4_BLOCK_FORMULA_FOUNDATION.md` | the operator split `U = U_clean + D` and block formula |
 | `HalfShiftInvariance_DRAFT.md` | Half-Shift Invariance / rank-1 `S_odd` (Lean draft) |
 | `CYCLE_CLAIM_REFUTED.md` | **the retraction**: why the spectral gap does not eliminate cycles (3x-1 control) |
-| `probe_cycle_link.py` | the decisive 3x+1 vs 3x-1 control experiment |
+| `CYCLE_STRUCTURE_RECOVERY.md` | follow-up: no cycle structure is recoverable from the spectral side; where it lives |
+| `probe_cycle_link.py`, `probe_cycle_recovery.py` | the 3x+1 vs 3x-1 control + cycle-detector tests |
 | `UFULL_ASSEMBLY_PROOF.md` | the assembly proved modulo Lemma C + the sharp per-level bound (Lemma C) |
 | `LEMMA_C_PROOF.md` | Lemma C reduced (shell method) to the homometry identity; assembly-strength proof |
 | `UFULL_ASSEMBLY_PLAN.md` | the prior cold-start brief for the assembly (now actioned) |
